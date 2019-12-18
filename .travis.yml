@@ -1,27 +1,12 @@
 language: python
+python:
+    - "3.7"
+    - "3.7-dev"  # 3.7 development branch
 
-before_install:
-    - sudo apt-get update
+  # command to install dependencies
+  install:
+    - pip install -r requirements.txt
 
-addons:
-    apt:
-      packages:
-      - python3.7
-      - python3-pip
-      - dpkg-dev
-      - build-essential
-      - python3.7-dev
-      - libpython3.7-dev
-      - freeglut3-dev
-      - libgl1-mesa-dev
-      - libglu1-mesa-dev
-      - libgstreamer-plugins-base1.0-dev
-      - libgtk-3-dev
-      - libjpeg-dev
-      - libnotify-dev
-      - libpng-dev
-      - libsdl2-dev
-      - libsm-dev
-      - libtiff-dev
-      - libwebkit2gtk-4.0-dev
-      - libxtst-dev
+  # command to run tests
+  #script:
+  #  - Hack-Attack
