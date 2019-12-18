@@ -1,6 +1,6 @@
 # Hack-Attack
 
-AlfieJ04's Hack-Attack Application
+AlfieJ04's Hack-Attack Application (Work in progress)
 
 A graphical user interface for running popular hacking automation scripts.
 Designed for use with Kali Linux running on a Raspberry Pi with a touchscreen.
