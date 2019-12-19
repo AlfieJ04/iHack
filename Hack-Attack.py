@@ -2,20 +2,40 @@
 
 import wx
 
-class haFrame(wx.Frame):    
+class UpdatePanel(wx.Panel):    
+    def __init__(self, parent):
+        super().__init__(parent)
+        main_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.row_obj_dict = {}
+
+        self.list_ctrl = wx.ListCtrl(
+            self, size=(-1, 100), 
+            style=wx.LC_REPORT | wx.BORDER_SUNKEN
+        )
+        self.list_ctrl.InsertColumn(0, 'Application', width=140)
+        self.list_ctrl.InsertColumn(1, 'Location', width=240)
+        self.list_ctrl.InsertColumn(2, 'Version', width=100)
+        main_sizer.Add(self.list_ctrl, 0, wx.ALL | wx.EXPAND, 5)        
+        update_button = wx.Button(self, label='Update')
+        update_button.Bind(wx.EVT_BUTTON, self.on_update)
+        main_sizer.Add(update_button, 0, wx.ALL | wx.CENTER, 5)        
+        self.SetSizer(main_sizer)
+
+    def on_update(self, event):
+        print('in on_update')
+
+    def update_apps(self, folder_path):
+        print(folder_path)
+
+
+class HAFrame(wx.Frame):    
     def __init__(self):
-        super().__init__(parent=None, title='Hack-Attack')
-        panel = wx.Panel(self)
-        srch_sizer = wx.BoxSizer(wx.VERTICAL)
-        self.text_ctrl = wx.TextCtrl(panel, pos=(5, 5))
-        srch_sizer.Add(self.text_ctrl, 0, wx.ALL | wx.EXPAND, 5)
-        srch_btn = wx.Button(panel, label='Search', pos=(5, 55))
-        srch_sizer.Add(srch_btn, 0, wx.ALL | wx.CENTER, 5)        
-        panel.SetSizer(srch_sizer)
-        
+        super().__init__(parent=None,
+                         title='Hack-Attack')
+        self.panel = UpdatePanel(self)
         self.Show()
 
 if __name__ == '__main__':
     app = wx.App()
-    frame = haFrame()
+    frame = HAFrame()
     app.MainLoop()
