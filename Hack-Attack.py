@@ -12,8 +12,8 @@ class UpdatePanel(wx.Panel):
             self, size=(-1, 100), 
             style=wx.LC_REPORT | wx.BORDER_SUNKEN
         )
-        self.list_ctrl.InsertColumn(0, 'Application', width=140)
-        self.list_ctrl.InsertColumn(1, 'Location', width=240)
+        self.list_ctrl.InsertColumn(0, 'Application', width=200)
+        self.list_ctrl.InsertColumn(1, 'Location', width=400)
         self.list_ctrl.InsertColumn(2, 'Version', width=100)
         main_sizer.Add(self.list_ctrl, 0, wx.ALL | wx.EXPAND, 5)        
         update_button = wx.Button(self, label='Update')
