@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import wx
+import subprocess
 
 class UpdatePanel(wx.Panel):    
     def __init__(self, parent):
@@ -22,7 +23,7 @@ class UpdatePanel(wx.Panel):
         self.SetSizer(main_sizer)
 
     def on_update(self, event):
-        print('in on_update')
+        subprocess.run(["sudo", "git", "clone", "https://github.com/AlfieJ04/Hack-Attack.git", "/opt/Hack-Attack/"])
 
     def update_apps(self, folder_path):
         print(folder_path)
