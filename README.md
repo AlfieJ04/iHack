@@ -9,9 +9,9 @@ Designed for use with Kali Linux.
 
 git clone https://github.com/AlfieJ04/iHack.git
 
-cd Hack-Attack
+cd iHack
 
 pip install -r requirements.txt
 
-./HackAttack.py
+./iHack.py
 
