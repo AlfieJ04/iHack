@@ -99,7 +99,7 @@ quitButton = Button(root, padx=50, text="Exit Program", command=quitClick, bg="g
 # Status Bar
 currentStatus = ""
 statusLabel = Label(root, text=str(currentStatus), bd=1, relief=SUNKEN, anchor=E)
-statusLabel.grid(row=8, column=0, columnspan=9, sticky=W+E)
+statusLabel.grid(row=8, column=0, columnspan=7, sticky=W+E)
 
 ###################################################
 #                                                 #
