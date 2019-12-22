@@ -7,15 +7,15 @@ Designed for use with Kali Linux.
 
 # Install dependencies
 
-sudo apt-get install python3-tk
+sudo apt-get install python3-tk git
 
 # Download and run
 
-git clone https://github.com/AlfieJ04/iHack.git
+sudo git clone https://github.com/AlfieJ04/iHack.git /opt/iHack
 
 cd iHack/
 
 pip3 install -r requirements.txt
 
-./iHack.py
+sudo python3 iHack.py
 

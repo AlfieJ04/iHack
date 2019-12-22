@@ -17,11 +17,12 @@ Created by AlfieJ04
 ###################################################
 
 import os
-from tkinter import * 
+from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
 import subprocess
-from git import Repo
+#from git import Repo
+
 
 ###################################################
 #                                                 #
@@ -54,7 +55,9 @@ mainFrame = LabelFrame(root, text="This is the main frame!", padx=5, pady=5)
 # Update function
 def updateClick():
     currentStatus = "Running update. Please wait"
-    Repo.clone_from('https://github.com/AlfieJ04/iHack.git', '/opt/iHack')
+    gitCommand = "cd /opt/iHack && git pull"
+    process = subprocess.Popen(gitCommand.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
     MsgBox = messagebox.showinfo('Update Complete','iHack updated!')
 
 # Install function
@@ -109,7 +112,12 @@ statusLabel.grid(row=8, column=0, columnspan=7, sticky=W+E)
 #                                                 #
 ###################################################
 
-# Grid layout
+# Grid 
+
+
+
+
+
 titleLabel.grid(row=2, column=4, sticky="nsew")
 titleDescription.grid(row=3, column=4, sticky="nsew")
 
