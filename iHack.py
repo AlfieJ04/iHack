@@ -25,7 +25,12 @@ from tkinter import Button, Tk, HORIZONTAL
 import tkinter.font
 from PIL import ImageTk, Image
 import subprocess
+import socket
 #from git import Repo
+
+
+
+
 
 
 ###################################################
@@ -68,6 +73,22 @@ mainFrame.pack()
 #                                                 #
 ###################################################
 
+# Python3 code to display hostname and 
+# IP address
+  
+# Function to display hostname and 
+# IP address 
+def get_Host_name_IP(): 
+    try:
+        f= open("IP.txt","w+") 
+        host_name = socket.gethostname() 
+        host_ip = socket.gethostbyname(host_name) 
+        f.write("Hostname :  ",host_name)
+        f.write("IP : ",host_ip)
+        
+    except: 
+        f.write("Unable to get Hostname and IP")
+
 
 def get_info(arg):
     print (tfield.get("1.0", "current lineend"))
@@ -86,11 +107,17 @@ def installClick():
     MsgBox = messagebox.askquestion ('Install Applications','Are you sure you want to install all applications?',icon = 'warning')
     if MsgBox == 'yes':
         statusLabel["text"] = "Installing applications. Please wait"
-        subprocess.call("sudo ./update.sh")
+        subprocess.call("sudo bash /opt/iHack/update.sh")
         MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
         
     else:
         messagebox.showinfo('Install Cancelled','No applications were harmed in the making of this script')
+
+# Monitor mode function
+def monModeClick():
+    statusLabel["text"] = "Enabling monitor mode. Please wait"
+    subprocess.call("sudo airmon-ng start wlan0")
+    MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
 
 # Quit function
 def quitClick():
@@ -147,7 +174,8 @@ quitButton = Button(mainFrame, padx=50, text="Exit Program", command=quitClick, 
 termf = Frame(root, height=400, width=500, bg="black")
 termf.pack(fill=BOTH, expand=YES)
 tfield = Text(root)
-f = os.popen('tail -f log.txt')
+get_Host_name_IP()
+f= open("IP.txt","r")
 for line in f:
     line = line.strip()
     if line:
