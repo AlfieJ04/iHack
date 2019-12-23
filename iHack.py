@@ -38,7 +38,7 @@ import subprocess
 root = Tk()
 root.title("iHack")
 if ( sys.platform.startswith('win')): 
-    root.iconbitmap('./.assets/img/logo.ico')
+    root.iconbitmap('.assets/img/icon.ico')
 else:
     logo = PhotoImage(file='./.assets/img/logo.gif')
     root.call('wm', 'iconphoto', root._w, logo)
@@ -147,15 +147,15 @@ quitButton = Button(mainFrame, padx=50, text="Exit Program", command=quitClick, 
 termf = Frame(root, height=400, width=500, bg="black")
 termf.pack(fill=BOTH, expand=YES)
 tfield = Text(root)
-f = os.popen('cd /opt/iHack && git pull')
+f = os.popen('tail -f log.txt')
 for line in f:
     line = line.strip()
     if line:
         tfield.insert("end", line+"\n")
         # tfield.get("current linestart", "current lineend")
 tfield.bind("<Return>", get_info)
-#wid = termf.winfo_id()
-#os.system('xterm -into %d -geometry 40x20 -sb &' % wid)
+wid = termf.winfo_id()
+os.system('xterm -into %d -geometry 40x20 -sb &' % wid)
 
 ###################################################
 #                                                 #
