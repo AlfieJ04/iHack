@@ -38,9 +38,9 @@ import subprocess
 root = Tk()
 root.title("iHack")
 if ( sys.platform.startswith('win')): 
-    root.iconbitmap('.assets/img/logo.ico')
+    root.iconbitmap('./.assets/img/logo.ico')
 else:
-    logo = PhotoImage(file='.assets/img/logo.gif')
+    logo = PhotoImage(file='./.assets/img/logo.gif')
     root.call('wm', 'iconphoto', root._w, logo)
 
 # Create the menubar
@@ -75,7 +75,7 @@ def get_info(arg):
 # Update function
 def updateClick():
     statusLabel["text"] = "Running update. Please wait"
-    gitCommand = "cd /opt/iHack && git pull"
+    gitCommand = 'cd /opt/iHack && git pull'
     process = subprocess.Popen(gitCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     MsgBox = messagebox.showinfo('Update Complete','iHack updated!')
@@ -86,7 +86,7 @@ def installClick():
     MsgBox = messagebox.askquestion ('Install Applications','Are you sure you want to install all applications?',icon = 'warning')
     if MsgBox == 'yes':
         statusLabel["text"] = "Installing applications. Please wait"
-        subprocess.call("update.sh")
+        subprocess.call("./update.sh")
         MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
         
     else:
@@ -147,7 +147,7 @@ quitButton = Button(mainFrame, padx=50, text="Exit Program", command=quitClick, 
 termf = Frame(root, height=400, width=500, bg="black")
 termf.pack(fill=BOTH, expand=YES)
 tfield = Text(root)
-f = os.popen("cd /opt/iHack && git pull")
+f = os.popen('cd /opt/iHack && git pull')
 for line in f:
     line = line.strip()
     if line:
