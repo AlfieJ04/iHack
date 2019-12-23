@@ -37,7 +37,11 @@ import subprocess
 # Create and configure root window
 root = Tk()
 root.title("iHack")
-root.iconbitmap(r'.assets/img/logo.png')
+if ( sys.platform.startswith('win')): 
+    root.iconbitmap('.assets/img/logo.ico')
+else:
+    logo = PhotoImage(file='.assets/img/logo.gif')
+    root.call('wm', 'iconphoto', root._w, logo)
 
 # Create the menubar
 menubar = Menu(root)
