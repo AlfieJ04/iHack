@@ -89,7 +89,6 @@ def get_Host_name_IP():
     except: 
         f.write("Unable to get Hostname and IP")
 
-
 def get_info(arg):
     print (tfield.get("1.0", "current lineend"))
 
