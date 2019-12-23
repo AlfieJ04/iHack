@@ -19,6 +19,7 @@ import threading
 from tkinter import *
 from tkinter import messagebox
 from tkinter import Button, Tk, HORIZONTAL
+from tkinter.ttk import Progressbar
 import tkinter.font
 from PIL import ImageTk, Image
 import subprocess
@@ -66,9 +67,9 @@ mainFrame.pack()
 #                                                 #
 ###################################################
 
-# Python3 code to display hostname and 
-# IP address
-  
+# Define progress bar
+p = Progressbar(root,orient=HORIZONTAL,length=500,mode="determinate",takefocus=True,maximum=100)
+
 # Function to display hostname and 
 # IP address 
 def get_Host_name_IP(): 
@@ -89,8 +90,10 @@ def get_info(arg):
 def updateClick():
     statusLabel["text"] = "Running update. Please wait"
     gitCommand = 'git pull'
+    #start_loading()
     process = subprocess.Popen(gitCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
+    #stop_loading()
     MsgBox = messagebox.showinfo('Update Complete','iHack updated!')
     statusLabel["text"] = "Update completed"
 
@@ -99,7 +102,9 @@ def installClick():
     MsgBox = messagebox.askquestion ('Install Applications','Are you sure you want to install all applications?',icon = 'warning')
     if MsgBox == 'yes':
         statusLabel["text"] = "Installing applications. Please wait"
+        #start_loading()
         subprocess.call(".scripts/update.sh")
+        #stop_loading()
         MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
         
     else:
@@ -109,7 +114,10 @@ def installClick():
 def monModeClick():
     statusLabel["text"] = "Enabling monitor mode. Please wait"
     subprocess.call(".scripts/airmon.sh")
-    MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
+    for i in range(100):                
+        p.step()            
+        root.update()
+    MsgBox = messagebox.showinfo('Monitor Mode','Monitor mode enabled!')
 
 # Quit function
 def quitClick():
@@ -133,7 +141,7 @@ subMenu.add_command(label="Exit", command=root.destroy)
 
 
 def about_us():
-    tkinter.messagebox.showinfo('About iHack', 'iHack is an interactive automated hacking application built using Python Tkinter by @AlfieJ04')
+    tkinter.messagebox.showinfo('About iHack', 'iHack is an interactive automated hacking application built using Python by @AlfieJ04')
 
 
 subMenu = Menu(menubar, tearoff=0)
@@ -213,6 +221,7 @@ installButton.pack(side=LEFT)
 monModeButton.pack(side=LEFT)
 quitButton.pack(side=LEFT)
 
+p.pack(pady=20)
 ###################################################
 #                                                 #
 #               ROOT WINDOW SPACING               #
