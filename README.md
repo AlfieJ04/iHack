@@ -13,7 +13,7 @@ sudo apt-get install python3-tk git
 
 sudo git clone https://github.com/AlfieJ04/iHack.git /opt/iHack
 
-cd iHack/
+cd /opt/iHack
 
 pip3 install -r requirements.txt
 
