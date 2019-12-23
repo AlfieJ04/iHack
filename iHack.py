@@ -39,7 +39,7 @@ currentStatus = "Waiting for input"
 # Create and configure root window
 root = Tk()
 root.title("iHack")
-root.iconbitmap('.assets/img/icon.ico')
+root.iconbitmap('icon.ico')
 #w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 #root.overrideredirect(1)
 #root.geometry("%dx%d+0+0" % (w, h))
