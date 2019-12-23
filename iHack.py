@@ -7,9 +7,6 @@ An interactive hacking application
 Created by AlfieJ04
 
 """
-
-
-
 ###################################################
 #                                                 #
 #                     IMPORTS                     #
@@ -27,10 +24,6 @@ from PIL import ImageTk, Image
 import subprocess
 import socket
 #from git import Repo
-
-
-
-
 
 
 ###################################################
@@ -95,7 +88,7 @@ def get_info(arg):
 # Update function
 def updateClick():
     statusLabel["text"] = "Running update. Please wait"
-    gitCommand = 'cd /opt/iHack && git pull'
+    gitCommand = 'git pull'
     process = subprocess.Popen(gitCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     MsgBox = messagebox.showinfo('Update Complete','iHack updated!')
@@ -106,7 +99,7 @@ def installClick():
     MsgBox = messagebox.askquestion ('Install Applications','Are you sure you want to install all applications?',icon = 'warning')
     if MsgBox == 'yes':
         statusLabel["text"] = "Installing applications. Please wait"
-        subprocess.call("update.sh")
+        subprocess.call(".scripts/update.sh")
         MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
         
     else:
@@ -115,7 +108,7 @@ def installClick():
 # Monitor mode function
 def monModeClick():
     statusLabel["text"] = "Enabling monitor mode. Please wait"
-    subprocess.call("sudo airmon-ng start wlan0")
+    subprocess.call(".scripts/airmon.sh")
     MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
 
 # Quit function
@@ -160,8 +153,9 @@ titleLabel = Label(mainFrame, text="iHack", font=titleFont)
 titleDescription = Label(mainFrame, text="The interactive hacking tool!", font=titleFont)
 
 # Button widgets
-updateButton = Button(mainFrame, text="Update", padx=50, command=updateClick, bg="grey", fg="white")
-installButton = Button(mainFrame, text="Install", padx=50, command=installClick, bg="grey", fg="white")
+updateButton = Button(mainFrame, text="Update iHack", padx=50, command=updateClick, bg="grey", fg="white")
+installButton = Button(mainFrame, text="Install All", padx=50, command=installClick, bg="grey", fg="white")
+monModeButton = Button(mainFrame, text="Monitor Mode", padx=50, command=monModeClick, bg="grey", fg="white")
 quitButton = Button(mainFrame, padx=50, text="Exit Program", command=quitClick, bg="grey", fg="white")
 
 ###################################################
@@ -216,6 +210,7 @@ titleDescription.pack(side=TOP)
 
 updateButton.pack(side=LEFT)
 installButton.pack(side=LEFT)
+monModeButton.pack(side=LEFT)
 quitButton.pack(side=LEFT)
 
 ###################################################
