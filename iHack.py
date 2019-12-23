@@ -86,7 +86,7 @@ def installClick():
     MsgBox = messagebox.askquestion ('Install Applications','Are you sure you want to install all applications?',icon = 'warning')
     if MsgBox == 'yes':
         statusLabel["text"] = "Installing applications. Please wait"
-        subprocess.call("./update.sh")
+        subprocess.call("sudo ./update.sh")
         MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
         
     else:
