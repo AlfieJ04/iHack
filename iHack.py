@@ -102,7 +102,7 @@ def installClick():
     if MsgBox == 'yes':
         statusLabel["text"] = "Installing applications. Please wait"
         #start_loading()
-        subprocess.call(".scripts/update.sh")
+        subprocess.Popen(['sh','.scripts/update.sh'])
         #stop_loading()
         MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
         
