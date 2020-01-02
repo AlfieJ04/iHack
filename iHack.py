@@ -24,8 +24,18 @@ import tkinter.font
 from PIL import ImageTk, Image
 import subprocess
 import socket
+import logging
 #from git import Repo
 
+###################################################
+#                                                 #
+#                     LOGGING                     #
+#                                                 #
+###################################################
+
+logging.basicConfig(level=logging.DEBUG, filename="logfile.txt", filemode="w",
+                        format="%(asctime)-15s %(levelname)-8s %(message)s")
+logging.info("hello")
 
 ###################################################
 #                                                 #
@@ -172,11 +182,19 @@ quitButton = Button(mainFrame, padx=50, text="Exit Program", command=quitClick, 
 
 #termf = Frame(root, height=400, width=500, bg="black")
 #termf.pack(fill=BOTH, expand=YES)
-tfield = Text(root)
+tfield = Text(root, bg='black', fg='white')
 tfield.pack(fill=BOTH, expand=YES)
 get_Host_name_IP()
-f = open("IP.txt","r")
-for line in f:
+ip = open("IP.txt","r")
+for line in ip:
+    line = line.strip()
+    if line:
+        tfield.insert("end", line+"\n")
+        # tfield.get("current linestart", "current lineend")
+tfield.bind("<Return>", get_info)
+
+log = open("logfile.txt","r")
+for line in log:
     line = line.strip()
     if line:
         tfield.insert("end", line+"\n")
@@ -224,4 +242,5 @@ p.pack(pady=20)
 ###################################################
 
 root.mainloop()
-f.close()
+ip.close()
+log.close()
