@@ -50,7 +50,7 @@ root.config(menu=menubar)
 subMenu = Menu(menubar, tearoff=0)
 
 #w, h = root.winfo_screenwidth(), root.winfo_screenheight()
-#root.overrideredirect(1)
+root.overrideredirect(1)
 #root.geometry("%dx%d+0+0" % (w, h))
 root.focus_set()
 root.bind("<Escape>", lambda e: e.widget.quit())
@@ -112,11 +112,10 @@ def installClick():
 # Monitor mode function
 def monModeClick():
     statusLabel["text"] = "Enabling monitor mode. Please wait"
-    subprocess.call(".scripts/airmon.sh")
-    #for i in range(100):                
-    #    p.step()            
-    #    root.update()
+    #subprocess.call(".scripts/airmon.sh")
+    subprocess.Popen(['sh','.scripts/airmon.sh'])
     MsgBox = messagebox.showinfo('Monitor Mode','Monitor mode enabled!')
+    statusLabel["text"] = "Monitor mode enabled"
 
 # Quit function
 def quitClick():
@@ -193,27 +192,17 @@ os.system('xterm -into %d -geometry 40x20 -sb &' % wid)
 
 # Status Bar
 statusLabel = Label(root, text="Welcome to iHack", bd=1, relief=SUNKEN, anchor=E, bg="grey", fg="white", font=titleFont)
-#statusLabel.grid(row=8, column=1, columnspan=7, sticky=W+E)
 statusLabel.pack(side=BOTTOM, fill=X, expand=1, pady=10)
 
 
 ###################################################
 #                                                 #
-#                       GRID                      #
+#                     LAYOUT                      #
 #                                                 #
 ###################################################
 
-# Grid 
-
-#titleLabel.grid(row=2, column=4, sticky="nsew")
-#titleDescription.grid(row=3, column=4, sticky="nsew")
 titleLabel.pack(side=TOP)
 titleDescription.pack(side=TOP)
-
-# Buttons
-#updateButton.grid(row=5, column=1)
-#installButton.grid(row=5, column=2)
-#quitButton.grid(row=5, column=8)
 
 updateButton.pack(side=LEFT)
 installButton.pack(side=LEFT)
