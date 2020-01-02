@@ -113,9 +113,9 @@ def installClick():
 def monModeClick():
     statusLabel["text"] = "Enabling monitor mode. Please wait"
     subprocess.call(".scripts/airmon.sh")
-    for i in range(100):                
-        p.step()            
-        root.update()
+    #for i in range(100):                
+    #    p.step()            
+    #    root.update()
     MsgBox = messagebox.showinfo('Monitor Mode','Monitor mode enabled!')
 
 # Quit function
@@ -175,7 +175,7 @@ termf = Frame(root, height=400, width=500, bg="black")
 termf.pack(fill=BOTH, expand=YES)
 tfield = Text(root)
 get_Host_name_IP()
-f = open("IP.txt","r")
+f= open("IP.txt","r")
 for line in f:
     line = line.strip()
     if line:
