@@ -33,10 +33,10 @@ import logging
 #                                                 #
 ###################################################
 
-logging.basicConfig(level=logging.DEBUG, filename="logfile.txt", filemode="w",
+logging.basicConfig(level=logging.DEBUG, filename="logfile.txt", filemode="w+",
                         format="%(asctime)-15s %(levelname)-8s %(message)s")
 #logging.info("hello")
-
+#lf = open("logfile.txt", "a")
 ###################################################
 #                                                 #
 #                   ROOT WINDOW                   #
@@ -83,59 +83,64 @@ pb = Progressbar(root,orient=HORIZONTAL,length=500,mode="determinate",takefocus=
 # Function to display hostname and IP address 
 def get_Host_name_IP(): 
     try:
-        f = open("logfile.txt","w+") 
+        #lf = open("logfile.txt","a") 
         host_name = socket.gethostname() 
         host_ip = socket.gethostbyname(host_name) 
-        f.write(f"Hostname :  {host_name}\n")
-        f.write(f"IP : {host_ip}")
-    except: 
-        f.write("Unable to get Hostname and IP")
+        logging.info(f"Hostname :  {host_name}")
+        logging.info(f"IP : {host_ip}")
+    except Exception as ex: 
+        print(ex) 
+        logging.info(ex)
 
 
 def get_info(arg):
-    print (tfield.get("1.0", "current lineend"))
+    #print (tfield.get("1.0", "current lineend"))
+    logging.info(tfield.get("1.0", "current lineend"))
 
 # Update function
 def updateClick():
     statusLabel["text"] = "Running update. Please wait"
     gitCommand = 'git pull'
-    #start_loading()
-    f = open("logfile.txt", "w+")
-    process = subprocess.Popen(gitCommand.split(), stdout=f)
+    lf = open("logfile.txt", "a")
+    process = subprocess.Popen(gitCommand.split(), stdout=lf)
     output, error = process.communicate()
-    #stop_loading()
     MsgBox = messagebox.showinfo('Update Complete','iHack updated!')
     statusLabel["text"] = "Update completed"
+    logging.info(f"Update complete, iHack was updated!")
 
 # Install function
 def installClick():
     MsgBox = messagebox.askquestion ('Install Applications','Are you sure you want to install all applications?',icon = 'warning')
     if MsgBox == 'yes':
         statusLabel["text"] = "Installing applications. Please wait"
-        #start_loading()
-        f = open("logfile.txt", "w+")
-        subprocess.Popen(['sh','.scripts/update.sh'], stdout=f)
-        #stop_loading()
+        lf = open("logfile.txt", "a")
+        process = subprocess.Popen(['sh','.scripts/update.sh'], stdout=lf)
+        output, error = process.communicate()
         MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
-        
+        logging.info(f"Install complete, All applications installed!")
     else:
-        messagebox.showinfo('Install Cancelled','No applications were harmed in the making of this script')
+        messagebox.showinfo('Install Cancelled','No applications were harmed in the making of this script!')
+        logging.info(f"Install cancelled','No applications were harmed in the making of this script!")
+        
 
 # Monitor mode function
 def monModeClick():
     statusLabel["text"] = "Enabling monitor mode. Please wait"
     #subprocess.call(".scripts/airmon.sh")
-    f = open("logfile.txt", "w+")
-    subprocess.Popen(['sh','.scripts/airmon.sh'], stdout=f)
+    lf = open("logfile.txt", "a")
+    process = subprocess.Popen(['sh','.scripts/airmon.sh'], stdout=lf)
+    output, error = process.communicate()
     MsgBox = messagebox.showinfo('Monitor Mode','Monitor mode enabled!')
     statusLabel["text"] = "Monitor mode enabled"
+    logging.warning(f"Monitor mode enabled!")
 
 # Quit function
 def quitClick():
     statusLabel["text"] = "Quitting"
     MsgBox = messagebox.askquestion ('Exit App','Really Quit?',icon = 'error')
     if MsgBox == 'yes':
-       root.destroy()
+        logging.warning(f"Quitting iHack!\n")
+        root.destroy()
     else:
         messagebox.showinfo('Welcome Back','Welcome back to the App')
 
@@ -183,19 +188,9 @@ quitButton = Button(mainFrame, padx=50, text="Exit Program", command=quitClick, 
 #                                                 #
 ###################################################
 
-#termf = Frame(root, height=400, width=500, bg="black")
-#termf.pack(fill=BOTH, expand=YES)
 tfield = Text(root, bg='black', fg='white')
 tfield.pack(fill=BOTH, expand=YES)
 get_Host_name_IP()
-# ip = open("IP.txt","r")
-# for line in ip:
-#     line = line.strip()
-#     if line:
-#         tfield.insert("end", line+"\n")
-#         # tfield.get("current linestart", "current lineend")
-# tfield.bind("<Return>", get_info)
-
 log = open("logfile.txt","r")
 for line in log:
     line = line.strip()
@@ -203,12 +198,6 @@ for line in log:
         tfield.insert("end", line+"\n")
         # tfield.get("current linestart", "current lineend")
 tfield.bind("<Return>", get_info)
-#wid = termf.winfo_id()
-#os.system('xterm -into %d -geometry 40x20 -sb &' % wid)
-#if ( sys.platform.startswith('win')):
-#    os.system('start cmd -into %d -geometry 40x20 -sb &')
-#else:
-#    os.system('xterm -into %d -geometry 40x20 -sb &' % wid)
 
 
 ###################################################
@@ -245,5 +234,4 @@ pb.pack(pady=20)
 ###################################################
 
 root.mainloop()
-#ip.close()
 log.close()
