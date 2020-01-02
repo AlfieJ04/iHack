@@ -1,2 +1,0 @@
-Hostname :  MFGCORP-8305
-IP : 172.20.64.241
