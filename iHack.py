@@ -35,7 +35,7 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG, filename="logfile.txt", filemode="w",
                         format="%(asctime)-15s %(levelname)-8s %(message)s")
-logging.info("hello")
+#logging.info("hello")
 
 ###################################################
 #                                                 #
@@ -78,12 +78,12 @@ mainFrame.pack()
 ###################################################
 
 # Define progress bar
-p = Progressbar(root,orient=HORIZONTAL,length=500,mode="determinate",takefocus=True,maximum=100)
+pb = Progressbar(root,orient=HORIZONTAL,length=500,mode="determinate",takefocus=True,maximum=100)
 
 # Function to display hostname and IP address 
 def get_Host_name_IP(): 
     try:
-        f = open("IP.txt","w+") 
+        f = open("logfile.txt","w+") 
         host_name = socket.gethostname() 
         host_ip = socket.gethostbyname(host_name) 
         f.write(f"Hostname :  {host_name}\n")
@@ -100,7 +100,8 @@ def updateClick():
     statusLabel["text"] = "Running update. Please wait"
     gitCommand = 'git pull'
     #start_loading()
-    process = subprocess.Popen(gitCommand.split(), stdout=subprocess.PIPE)
+    f = open("logfile.txt", "w+")
+    process = subprocess.Popen(gitCommand.split(), stdout=f)
     output, error = process.communicate()
     #stop_loading()
     MsgBox = messagebox.showinfo('Update Complete','iHack updated!')
@@ -112,7 +113,8 @@ def installClick():
     if MsgBox == 'yes':
         statusLabel["text"] = "Installing applications. Please wait"
         #start_loading()
-        subprocess.Popen(['sh','.scripts/update.sh'])
+        f = open("logfile.txt", "w+")
+        subprocess.Popen(['sh','.scripts/update.sh'], stdout=f)
         #stop_loading()
         MsgBox = messagebox.showinfo('Install Complete','All applications installed!')
         
@@ -123,7 +125,8 @@ def installClick():
 def monModeClick():
     statusLabel["text"] = "Enabling monitor mode. Please wait"
     #subprocess.call(".scripts/airmon.sh")
-    subprocess.Popen(['sh','.scripts/airmon.sh'])
+    f = open("logfile.txt", "w+")
+    subprocess.Popen(['sh','.scripts/airmon.sh'], stdout=f)
     MsgBox = messagebox.showinfo('Monitor Mode','Monitor mode enabled!')
     statusLabel["text"] = "Monitor mode enabled"
 
@@ -185,13 +188,13 @@ quitButton = Button(mainFrame, padx=50, text="Exit Program", command=quitClick, 
 tfield = Text(root, bg='black', fg='white')
 tfield.pack(fill=BOTH, expand=YES)
 get_Host_name_IP()
-ip = open("IP.txt","r")
-for line in ip:
-    line = line.strip()
-    if line:
-        tfield.insert("end", line+"\n")
-        # tfield.get("current linestart", "current lineend")
-tfield.bind("<Return>", get_info)
+# ip = open("IP.txt","r")
+# for line in ip:
+#     line = line.strip()
+#     if line:
+#         tfield.insert("end", line+"\n")
+#         # tfield.get("current linestart", "current lineend")
+# tfield.bind("<Return>", get_info)
 
 log = open("logfile.txt","r")
 for line in log:
@@ -233,7 +236,7 @@ installButton.pack(side=LEFT)
 monModeButton.pack(side=LEFT)
 quitButton.pack(side=LEFT)
 
-p.pack(pady=20)
+pb.pack(pady=20)
 
 ###################################################
 #                                                 #
@@ -242,5 +245,5 @@ p.pack(pady=20)
 ###################################################
 
 root.mainloop()
-ip.close()
+#ip.close()
 log.close()
