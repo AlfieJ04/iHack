@@ -112,7 +112,7 @@ def installClick():
 # Monitor mode function
 def monModeClick():
     statusLabel["text"] = "Enabling monitor mode. Please wait"
-    subprocess.call("sudo .scripts/airmon.sh")
+    subprocess.call(".scripts/airmon.sh")
     for i in range(100):                
         p.step()            
         root.update()
