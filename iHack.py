@@ -173,6 +173,7 @@ quitButton = Button(mainFrame, padx=50, text="Exit Program", command=quitClick, 
 termf = Frame(root, height=400, width=500, bg="black")
 termf.pack(fill=BOTH, expand=YES)
 tfield = Text(root)
+tfield.pack()
 get_Host_name_IP()
 f = open("IP.txt","r")
 for line in f:
@@ -180,9 +181,13 @@ for line in f:
     if line:
         tfield.insert("end", line+"\n")
         # tfield.get("current linestart", "current lineend")
-tfield.bind("<Return>", get_Host_name_IP())
+tfield.bind("<Return>", get_info)
 wid = termf.winfo_id()
-os.system('xterm -into %d -geometry 40x20 -sb &' % wid)
+if ( sys.platform.startswith('win')):
+    os.system('start cmd -into %d -geometry 40x20 -sb &' % wid)
+else:
+    os.system('xterm -into %d -geometry 40x20 -sb &' % wid)
+
 
 ###################################################
 #                                                 #
