@@ -70,18 +70,17 @@ mainFrame.pack()
 # Define progress bar
 p = Progressbar(root,orient=HORIZONTAL,length=500,mode="determinate",takefocus=True,maximum=100)
 
-# Function to display hostname and 
-# IP address 
+# Function to display hostname and IP address 
 def get_Host_name_IP(): 
     try:
-        f= open("IP.txt","w+") 
+        f = open("IP.txt","w+") 
         host_name = socket.gethostname() 
         host_ip = socket.gethostbyname(host_name) 
-        f.write("Hostname :  ",host_name)
-        f.write("IP : ",host_ip)
-        
+        f.write(f"Hostname :  {host_name}\n")
+        f.write(f"IP : {host_ip}")
     except: 
         f.write("Unable to get Hostname and IP")
+
 
 def get_info(arg):
     print (tfield.get("1.0", "current lineend"))
@@ -222,16 +221,6 @@ monModeButton.pack(side=LEFT)
 quitButton.pack(side=LEFT)
 
 p.pack(pady=20)
-###################################################
-#                                                 #
-#               ROOT WINDOW SPACING               #
-#                                                 #
-###################################################
-
-#root.grid_rowconfigure(0, weight=1)
-#root.grid_rowconfigure(9, weight=1)
-#root.grid_columnconfigure(0, weight=1)
-#root.grid_columnconfigure(9, weight=1)
 
 ###################################################
 #                                                 #
