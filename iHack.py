@@ -36,7 +36,7 @@ import time
 
 logging.basicConfig(level=logging.DEBUG, filename="logfile.txt", filemode="w+",
                         format="%(asctime)-15s %(levelname)-8s %(message)s")
-#lf = open("logfile.txt", "a")
+
 ###################################################
 #                                                 #
 #                   ROOT WINDOW                   #
@@ -61,7 +61,7 @@ subMenu = Menu(menubar, tearoff=0)
 
 #w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 #root.overrideredirect(1)
-#root.geometry("%dx%d+0+0" % (w, h))
+root.geometry("%dx%d+0+0" % (700, 600))
 root.focus_set()
 root.bind("<Escape>", lambda e: e.widget.quit())
 #root.configure(background='black')
@@ -105,11 +105,6 @@ def get_Host_name_IP():
     except Exception as ex: 
         print(ex) 
         logging.info(ex)
-
-
-#def get_info(arg):
-    #print (tfield.get("1.0", "current lineend"))
-    #logging.info(tfield.get("1.0", "current lineend"))
 
 # Update function
 def updateClick():
@@ -171,6 +166,8 @@ def quitClick():
         logging.warning(f"Quit cancelled by user!\n")
         messagebox.showinfo('Welcome Back','Welcome back to the App')
 
+def about_us():
+    tkinter.messagebox.showinfo('About iHack', 'iHack is an interactive automated hacking application built using Python by @AlfieJ04')
 
 ###################################################
 #                                                 #
@@ -182,15 +179,9 @@ menubar.add_cascade(label="File", menu=subMenu)
 subMenu.add_command(label="Install", command=updateClick)
 subMenu.add_command(label="Exit", command=root.destroy)
 
-
-def about_us():
-    tkinter.messagebox.showinfo('About iHack', 'iHack is an interactive automated hacking application built using Python by @AlfieJ04')
-
-
 subMenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Help", menu=subMenu)
 subMenu.add_command(label="About Us", command=about_us)
-
 
 ###################################################
 #                                                 #
@@ -229,20 +220,11 @@ scroll.config(command=tfield.yview)
 tfield.config(yscrollcommand=scroll.set)
 
 def terminal():
-    #log = open("logfile.txt","r")
-    #for line in log:
-    #    line = line.strip()
-    #    if line:
-    #        tfield.insert("end", line+"\n")
-    #    tfield.after(1000, tfield.insert("end", line+"\n"))
     with open("logfile.txt","r") as f:
         data = f.read()
         tfield.delete('1.0', END)  # Remove previous content 
         tfield.insert(END,data)    # Insert text from file
     tfield.after(1000, terminal)
-    # logging.info(tfield.get("1.0", "current lineend"))
-    # tfield.get("current linestart", "current lineend")
-#tfield.bind("<Return>", get_info)
 
 
 ###################################################
@@ -287,4 +269,3 @@ pb.pack(pady=20)
 ###################################################
 terminal()
 root.mainloop()
-#log.close()
