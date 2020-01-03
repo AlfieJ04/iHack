@@ -25,6 +25,7 @@ from PIL import ImageTk, Image
 import subprocess
 import socket
 import logging
+import time
 #from git import Repo
 
 ###################################################
@@ -65,10 +66,24 @@ root.focus_set()
 root.bind("<Escape>", lambda e: e.widget.quit())
 #root.configure(background='black')
 titleFont = tkinter.font.Font(family = 'Verdana', size = 12, weight = "bold")
-# Create main frame
 
-mainFrame = LabelFrame(root, padx=5, pady=5)
-mainFrame.pack()
+###################################################
+#                                                 #
+#                      FRAMES                     #
+#                                                 #
+###################################################
+
+# Title frame
+titleFrame = LabelFrame(root, padx=5, pady=5, borderwidth=2, relief="solid")
+titleFrame.pack()
+
+# Buttons - Top row
+topButtonFrame = LabelFrame(root, padx=5, pady=5, borderwidth=2, relief="flat")
+topButtonFrame.pack()
+
+# Buttons - Bottom row
+bottomButtonFrame = LabelFrame(root, padx=5, pady=5, borderwidth=2, relief="flat")
+bottomButtonFrame.pack()
 
 ###################################################
 #                                                 #
@@ -92,9 +107,9 @@ def get_Host_name_IP():
         logging.info(ex)
 
 
-def get_info(arg):
+#def get_info(arg):
     #print (tfield.get("1.0", "current lineend"))
-    logging.info(tfield.get("1.0", "current lineend"))
+    #logging.info(tfield.get("1.0", "current lineend"))
 
 # Update function
 def updateClick():
@@ -133,14 +148,27 @@ def monModeClick():
     statusLabel["text"] = "Monitor mode enabled"
     logging.warning(f"Monitor mode enabled!")
 
+# Evil AP function
+def evilAPClick():
+    statusLabel["text"] = "Enabling Evil AP. Please wait"
+    #subprocess.call(".scripts/airmon.sh")
+    lf = open("logfile.txt", "a")
+    process = subprocess.Popen(['sh','.scripts/mana.sh'], stdout=lf)
+    output, error = process.communicate()
+    MsgBox = messagebox.showinfo('Evil AP','Evil AP enabled!')
+    statusLabel["text"] = "Evil AP enabled"
+    logging.warning(f"Evil AP enabled!")
+
 # Quit function
 def quitClick():
     statusLabel["text"] = "Quitting"
+    logging.warning(f"Quitting iHack!\n")
     MsgBox = messagebox.askquestion ('Exit App','Really Quit?',icon = 'error')
     if MsgBox == 'yes':
-        logging.warning(f"Quitting iHack!\n")
+        logging.warning(f"Application closed\n")
         root.destroy()
     else:
+        logging.warning(f"Quit cancelled by user!\n")
         messagebox.showinfo('Welcome Back','Welcome back to the App')
 
 
@@ -170,16 +198,20 @@ subMenu.add_command(label="About Us", command=about_us)
 #                                                 #
 ###################################################
 
+# Title widget
+titleLabel = Label(titleFrame, text="iHack", font=titleFont)
+titleDescription = Label(titleFrame, text="The interactive hacking tool!", font=titleFont)
 
-# Label widgets
-titleLabel = Label(mainFrame, text="iHack", font=titleFont)
-titleDescription = Label(mainFrame, text="The interactive hacking tool!", font=titleFont)
+## Button widgets ##
 
-# Button widgets
-updateButton = Button(mainFrame, text="Update iHack", padx=50, command=updateClick, bg="grey", fg="white")
-installButton = Button(mainFrame, text="Install All", padx=50, command=installClick, bg="grey", fg="white")
-monModeButton = Button(mainFrame, text="Monitor Mode", padx=50, command=monModeClick, bg="grey", fg="white")
-quitButton = Button(mainFrame, padx=50, text="Exit Program", command=quitClick, bg="grey", fg="white")
+# Top row
+monModeButton = Button(topButtonFrame, text="Monitor Mode", padx=50, command=monModeClick, bg="grey", fg="white")
+evilAPButton = Button(topButtonFrame, text="Evil AP", padx=50, command=evilAPClick, bg="grey", fg="white")
+
+# Bottom row
+updateButton = Button(bottomButtonFrame, text="Update iHack", padx=50, command=updateClick, bg="grey", fg="white")
+installButton = Button(bottomButtonFrame, text="Install All", padx=50, command=installClick, bg="grey", fg="white")
+quitButton = Button(bottomButtonFrame, padx=50, text="Exit Program", command=quitClick, bg="grey", fg="white")
 
 ###################################################
 #                                                 #
@@ -187,16 +219,30 @@ quitButton = Button(mainFrame, padx=50, text="Exit Program", command=quitClick, 
 #                                                 #
 ###################################################
 
+
 tfield = Text(root, bg='black', fg='white')
 tfield.pack(fill=BOTH, expand=YES)
 get_Host_name_IP()
-log = open("logfile.txt","r")
-for line in log:
-    line = line.strip()
-    if line:
-        tfield.insert("end", line+"\n")
-        # tfield.get("current linestart", "current lineend")
-tfield.bind("<Return>", get_info)
+scroll = Scrollbar(tfield)
+scroll.pack(side=RIGHT, fill=Y)
+scroll.config(command=tfield.yview)
+tfield.config(yscrollcommand=scroll.set)
+
+def terminal():
+    #log = open("logfile.txt","r")
+    #for line in log:
+    #    line = line.strip()
+    #    if line:
+    #        tfield.insert("end", line+"\n")
+    #    tfield.after(1000, tfield.insert("end", line+"\n"))
+    with open("logfile.txt","r") as f:
+        data = f.read()
+        tfield.delete('1.0', END)  # Remove previous content 
+        tfield.insert(END,data)    # Insert text from file
+    tfield.after(1000, terminal)
+    # logging.info(tfield.get("1.0", "current lineend"))
+    # tfield.get("current linestart", "current lineend")
+#tfield.bind("<Return>", get_info)
 
 
 ###################################################
@@ -216,14 +262,22 @@ statusLabel.pack(side=BOTTOM, fill=X, expand=1, pady=10)
 #                                                 #
 ###################################################
 
+# Title and description
 titleLabel.pack(side=TOP)
 titleDescription.pack(side=TOP)
 
+## Buttons ##
+
+# Top row
 updateButton.pack(side=LEFT)
 installButton.pack(side=LEFT)
 monModeButton.pack(side=LEFT)
-quitButton.pack(side=LEFT)
+evilAPButton.pack(side=LEFT)
 
+# Bottom row
+quitButton.pack(side=BOTTOM)
+
+# Progress bar
 pb.pack(pady=20)
 
 ###################################################
@@ -231,6 +285,6 @@ pb.pack(pady=20)
 #                     MAIN LOOP                   #
 #                                                 #
 ###################################################
-
+terminal()
 root.mainloop()
-log.close()
+#log.close()
