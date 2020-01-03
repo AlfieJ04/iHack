@@ -35,7 +35,6 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG, filename="logfile.txt", filemode="w+",
                         format="%(asctime)-15s %(levelname)-8s %(message)s")
-#logging.info("hello")
 #lf = open("logfile.txt", "a")
 ###################################################
 #                                                 #
