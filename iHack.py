@@ -163,7 +163,7 @@ def quitClick():
         logging.warning(f"Application closed\n")
         root.destroy()
     else:
-        logging.warning(f"Quit cancelled by user!\n")
+        logging.warning(f"Quit cancelled by user!")
         messagebox.showinfo('Welcome Back','Welcome back to the App')
 
 def about_us():
