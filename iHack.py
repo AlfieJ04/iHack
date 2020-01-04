@@ -52,6 +52,15 @@ else:
     logo = PhotoImage(file='./.assets/img/logo.gif')
     root.call('wm', 'iconphoto', root._w, logo)
 
+# Background image
+
+#C = Canvas(root, bg="blue", height=250, width=300)
+#filename = PhotoImage(file = ".assets/img/background.gif")
+#background_label = Label(root, image=filename)
+#background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+#C.pack()
+
 # Create the menubar
 menubar = Menu(root)
 root.config(menu=menubar)
@@ -59,9 +68,9 @@ root.config(menu=menubar)
 # Create the submenu
 subMenu = Menu(menubar, tearoff=0)
 
-#w, h = root.winfo_screenwidth(), root.winfo_screenheight()
+w, h = root.winfo_screenwidth(), root.winfo_screenheight()
 #root.overrideredirect(1)
-root.geometry("%dx%d+0+0" % (700, 600))
+root.geometry("%dx%d+0+0" % (700, 500))
 root.focus_set()
 root.bind("<Escape>", lambda e: e.widget.quit())
 #root.configure(background='black')
